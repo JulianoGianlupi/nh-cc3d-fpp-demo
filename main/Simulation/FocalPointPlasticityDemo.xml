@@ -1,0 +1,77 @@
+<CompuCell3D Revision="20210123" Version="4.2.4">
+   <Metadata>
+      <NumberOfProcessors>1</NumberOfProcessors>
+      <DebugOutputFrequency>-1</DebugOutputFrequency>
+   </Metadata>
+
+   <Potts>
+      <Dimensions x="196" y="50" z="1"/>
+      <Steps>100000</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>1</NeighborOrder>
+      <Boundary_x>Periodic</Boundary_x>
+   </Potts>
+
+   <Plugin Name="CellType">
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType TypeId="1" TypeName="Towards"/>
+      <CellType TypeId="2" TypeName="Away"/>
+   </Plugin>
+
+   <Plugin Name="Volume"/>
+   <Plugin Name="CenterOfMass"/>
+
+   <Plugin Name="Contact">
+      <Energy Type1="Medium" Type2="Medium">10.0</Energy>
+      <Energy Type1="Medium" Type2="Towards">10.0</Energy>
+      <Energy Type1="Medium" Type2="Away">10.0</Energy>
+      <Energy Type1="Towards" Type2="Towards">5.0</Energy>
+      <Energy Type1="Towards" Type2="Away">15.0</Energy>
+      <Energy Type1="Away" Type2="Away">5.0</Energy>
+      <NeighborOrder>3</NeighborOrder>
+   </Plugin>
+
+   <Plugin Name="Chemotaxis">
+      <ChemicalField Name="Field">
+         <ChemotaxisByType id="chemo_lam_t" Lambda="1000.0" Type="Towards"/>
+         <ChemotaxisByType id="chemo_lam_a" Lambda="-1000.0" Type="Away"/>
+      </ChemicalField>
+   </Plugin>
+   
+   <Plugin Name="FocalPointPlasticity">
+       <Parameters Type1="Towards" Type2="Towards">
+          <Lambda id="fpp_lam_tt">10</Lambda>
+          <ActivationEnergy>-50</ActivationEnergy>
+          <TargetDistance>7</TargetDistance>
+          <MaxDistance>20</MaxDistance>
+          <MaxNumberOfJunctions NeighborOrder="1">2</MaxNumberOfJunctions>
+       </Parameters>
+       <Parameters Type1="Away" Type2="Away">
+          <Lambda id="fpp_lam_aa">10</Lambda>
+          <ActivationEnergy>-50</ActivationEnergy>
+          <TargetDistance>7</TargetDistance>
+          <MaxDistance>20</MaxDistance>
+          <MaxNumberOfJunctions NeighborOrder="1">2</MaxNumberOfJunctions>
+       </Parameters>
+       <NeighborOrder>1</NeighborOrder>
+    </Plugin>
+
+   <Steppable Type="DiffusionSolverFE">
+      <DiffusionField Name="Field">
+         <DiffusionData>
+            <FieldName>Field</FieldName>
+            <GlobalDiffusionConstant>0.1</GlobalDiffusionConstant>
+            <InitialConcentrationExpression>y/50</InitialConcentrationExpression>
+         </DiffusionData>
+         <BoundaryConditions>
+            <Plane Axis="X">
+               <Periodic/>
+            </Plane>
+            <Plane Axis="Y">
+               <ConstantValue PlanePosition="Min" Value="0.0"/>
+               <ConstantValue PlanePosition="Max" Value="1.0"/>
+            </Plane>
+         </BoundaryConditions>
+      </DiffusionField>
+   </Steppable>
+</CompuCell3D>
