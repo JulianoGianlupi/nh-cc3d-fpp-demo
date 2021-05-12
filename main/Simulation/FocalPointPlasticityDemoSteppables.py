@@ -42,8 +42,10 @@ class FocalPointPlasticityDemoSteppable(SteppableBasePy):
         """
         ch = int(self.dim.y / 2)
         for x in range(0, self.dim.x, 7):
-            cell_t = self.new_cell(self.cell_type.Towards)
-            cell_a = self.new_cell(self.cell_type.Away)
+            # cell_t = self.new_cell(self.cell_type.Towards)
+            cell_t = self.new_cell(self.TOWARDS)
+            # cell_a = self.new_cell(self.cell_type.Away)
+            cell_a = self.new_cell(self.AWAY)
             cell_t.targetVolume = 49
             cell_a.targetVolume = 49
             cell_t.lambdaVolume = 2
