@@ -1,4 +1,4 @@
-<Simulation version="4.2.4">
+<Simulation version="4.2.2">
    <XMLScript Type="XMLScript">Simulation/FocalPointPlasticityDemo.xml</XMLScript>
    <PythonScript Type="PythonScript">Simulation/FocalPointPlasticityDemo.py</PythonScript>
    <Resource Type="Python">Simulation/FocalPointPlasticityDemoSteppables.py</Resource>
